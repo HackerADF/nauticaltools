@@ -1,0 +1,1249 @@
+
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nautical Hosting - Rank Generator</title>
+  <style>
+    :root {
+      --body: #0b1a2f;
+      --secondBG: #1e293b;
+      --thirdBG: #0f172a;
+      --accent: #38bdf8;
+      --mainText: #f8fafc;
+      --text: #cbd5e1;
+      --boxShadow: 0 4px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #0f3460 100%);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      background-color: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    
+.drop-zone {
+  border: 2px dashed #475569;
+  border-radius: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  background: var(--thirdBG);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.drop-zone:hover {
+  border-color: var(--accent);
+  background: rgba(56, 189, 248, 0.05);
+}
+
+.drop-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(56, 189, 248, 0.1);
+  border-style: solid;
+  transform: scale(1.02);
+}
+
+.drop-zone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 49%, rgba(56, 189, 248, 0.1) 50%, transparent 51%);
+  background-size: 20px 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drop-zone.drag-over::before {
+  opacity: 1;
+}
+
+.drop-zone-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.drop-zone-icon {
+  width: 48px;
+  height: 48px;
+  stroke: var(--accent);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.drop-zone:hover .drop-zone-icon,
+.drop-zone.drag-over .drop-zone-icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.drop-zone-text {
+  color: var(--text);
+  font-size: 1rem;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.drop-zone:hover .drop-zone-text,
+.drop-zone.drag-over .drop-zone-text {
+  color: var(--mainText);
+}
+
+.drop-zone-subtext {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.background-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 15px;
+  background: var(--thirdBG);
+  border: 1px solid #475569;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.background-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.background-info::before {
+  content: '📁';
+  font-size: 1.2rem;
+}
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .logo svg {
+      width: 36px;
+      height: 36px;
+      fill: var(--accent);
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: var(--mainText);
+    }
+
+    .tagline {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    main {
+      max-width: 700px;
+      width: 100%;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .card {
+      background: var(--secondBG);
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: var(--boxShadow);
+    }
+
+    .card h2 {
+      color: var(--mainText);
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 1rem;
+      color: var(--mainText);
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      background: var(--thirdBG);
+      color: var(--mainText);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      background: var(--thirdBG);
+      color: var(--mainText);
+      transition: border-color 0.3s, box-shadow 0.3s;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+    }
+
+    select:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+    }
+
+    .color-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .color-picker {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .color-preview {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="color"] {
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 6px;
+      background: none;
+      cursor: pointer;
+    }
+
+    .color-value {
+      font-family: monospace;
+      background: var(--thirdBG);
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .option-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .toggle {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #334155;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      background: var(--accent);
+      color: #0f172a;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 0;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button.secondary {
+      background: #475569;
+      color: white;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+    }
+
+    button.secondary:hover {
+      box-shadow: 0 4px 12px rgba(71, 85, 105, 0.25);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .output-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .rank-wrapper {
+      position: relative;
+      margin: 25px 0;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .rank-display {
+      image-rendering: pixelated;
+      transform: scale(6);
+      transform-origin: center;
+      border: 1px solid #334155;
+    }
+
+    .preview-header {
+      text-align: center;
+      margin-bottom: 15px;
+      color: var(--mainText);
+      font-size: 1.2rem;
+    }
+
+    .zoom-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .zoom-btn {
+      background: #475569;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .zoom-btn:hover {
+      background: #64748b;
+    }
+
+    .zoom-level {
+      background: var(--thirdBG);
+      padding: 8px 15px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .example-btn {
+      background: var(--thirdBG);
+      color: var(--text);
+      border: 1px solid #475569;
+      border-radius: 6px;
+      padding: 8px 15px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .example-btn:hover {
+      background: #334155;
+      color: white;
+    }
+
+    .loading-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      color: var(--accent);
+    }
+
+    .loading-indicator svg {
+      animation: spin 1.5s linear infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    footer {
+      width: 100%;
+      background-color: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      text-align: center;
+      border-top: 1px solid #334155;
+      margin-top: auto;
+    }
+
+    footer p {
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 20px;
+      }
+      
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .color-group {
+        flex-direction: column;
+      }
+      
+      .options {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M15 5.1L9 3 3 5.02v16.2l6-2.33 6 2.1 6-2.02V2.77L15 5.1zm0 13.79l-6-2.11V5.11l6 2.11v11.67z"></path>
+      </svg>
+      <h1>Nautical Hosting</h1>
+    </div>
+    <p class="tagline">Rank Generator</p>
+  </header>
+
+    <main>
+    <div class="card">
+      <h2>Create Your Rank</h2>
+      <div class="form-group">
+        <label for="rankText">Rank Text:</label>
+        <input type="text" id="rankText" value="PARTNER" placeholder="Enter rank text..." maxlength="15">
+      </div>
+      
+      <div class="form-group">
+        <label for="fontStyle">Font Style:</label>
+        <select id="fontStyle"><option value="default">Default</option><option value="rounded">Rounded</option><option value="small">Small</option><option value="big_ranks">Big ranks</option><option value="border_ranks">Border ranks</option></select>
+      </div>
+
+      <div class="form-group">
+        <label for="backgroundImage">Background Image:</label>
+        <div class="drop-zone" id="dropZone">
+          <p>Drop PNG image here or click to select</p>
+          <input type="file" id="backgroundImageInput" accept="image/png" style="display: none;">
+        </div>
+        <div class="background-controls" id="backgroundControls" style="display: none;">
+          <button type="button" id="removeBackground" class="secondary">Remove Background</button>
+          <span id="backgroundInfo"></span>
+        </div>
+      </div>
+      
+      <div class="color-group">
+        <div class="color-picker">
+          <label for="borderColor">Border Color:</label>
+          <div class="color-preview">
+            <input type="color" id="borderColor" value="#38bdf8">
+            <span class="color-value" id="borderColorValue">#38bdf8</span>
+          </div>
+        </div>
+        
+        <div class="color-picker" style="display: none;">
+          <label for="borderEndColor">Border End Color:</label>
+          <div class="color-preview">
+            <input type="color" id="borderEndColor" value="#38bdf8">
+            <span class="color-value" id="borderEndColorValue">#38bdf8</span>
+          </div>
+        </div>
+        
+        <div class="color-picker">
+          <label for="bgColorStart">Background Start:</label>
+          <div class="color-preview">
+            <input type="color" id="bgColorStart" value="#0f172a">
+            <span class="color-value" id="bgStartValue">#0f172a</span>
+          </div>
+        </div>
+        
+        <div class="color-picker">
+          <label for="bgColorEnd">Background End:</label>
+          <div class="color-preview">
+            <input type="color" id="bgColorEnd" value="#1e3a8a">
+            <span class="color-value" id="bgEndValue">#1e3a8a</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="options">
+        <label class="option-toggle" style="display: flex;">
+          <span>Enable Shadow</span>
+          <label class="toggle">
+            <input type="checkbox" id="enableShadow" checked="">
+            <span class="slider"></span>
+          </label>
+        </label>
+        
+        <label class="option-toggle">
+          <span>Gradient Border</span>
+          <label class="toggle">
+            <input type="checkbox" id="enableGradientBorder">
+            <span class="slider"></span>
+          </label>
+        </label>
+
+        <label class="option-toggle">
+          <span>Enable Border</span>
+          <label class="toggle">
+            <input type="checkbox" id="enableBorder" checked="">
+            <span class="slider"></span>
+          </label>
+        </label>
+      </div>
+      
+      <div class="button-group">
+        <button id="generateBtn" onclick="generateRank()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
+          Generate
+        </button>
+        
+        <button id="downloadBtn" onclick="downloadImage()" class="secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+          </svg>
+          Download
+        </button>
+      </div>
+    </div>
+    
+    <div class="card output-area">
+      <h2 class="preview-header">Rank Preview</h2>
+      
+      <div class="zoom-controls">
+        <button class="zoom-btn" onclick="adjustZoom(-1)">-</button>
+        <span class="zoom-level" id="zoomLevel">6x</span>
+        <button class="zoom-btn" onclick="adjustZoom(1)">+</button>
+      </div>
+      
+      <div class="rank-wrapper">
+        <canvas id="rankCanvas" class="rank-display" width="34" height="15" style="display: block;"></canvas>
+        <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6v6l4 2"></path>
+          </svg>
+          Loading fonts...
+        </div>
+      </div>
+      
+      <div class="examples">
+        <button class="example-btn" onclick="loadExample('OWNER', '#ff0000', '#ff0000', '#000000', '#3b0764', true, 'default', false)">OWNER</button>
+        <button class="example-btn" onclick="loadExample('ADMIN', '#ffff00', '#ffff00', '#3b0764', '#701a75', true, 'default', false)">ADMIN</button>
+        <button class="example-btn" onclick="loadExample('MODERATOR', '#00ff00', '#0000ff', '#0f172a', '#1e3a8a', true, 'default', true)">MODERATOR</button>
+        <button class="example-btn" onclick="loadExample('PARTNER', '#38bdf8', '#38bdf8', '#164e63', '#0e7490', false, 'default', false)">PARTNER</button>
+        <button class="example-btn" onclick="loadExample('VIP', '#f59e0b', '#ff0000', '#000000', '#7c2d12', true, 'default', true)">VIP</button>
+      </div>
+    </div>
+  </main>
+
+<footer>
+  <p style="color: white;">© 2025 Nautical Hosting. All rights reserved.</p>
+  <p style="color: cyan;">
+    Nautical Hosting official website:
+    <a href="https://nauticalhosting.org" style="color: cyan;" target="_blank" rel="noopener noreferrer">
+      https://nauticalhosting.org
+    </a>
+  </p>
+  <p style="color: gray;">Version: 1.3</p>
+  <p style="color: #38bdf8; margin-top: 10px;">
+    <a href="https://www.youtube.com/watch?v=7c0fId3OguI&amp;t=198s" style="color: #38bdf8; text-decoration: underline;" target="_blank" rel="noopener noreferrer">
+      Need help? Watch our tutorial on using rank PNGs
+    </a>
+  </p>
+</footer>
+
+<script>
+    const canvas = document.getElementById('rankCanvas');
+    const ctx = canvas.getContext('2d');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+
+    const fontConfig = {
+      default: {
+        normal: {
+          height: 9,
+          letterWidth: 5,
+          spacing: 1,
+          enableShadow: true,
+          borderSize: 1
+        },
+        shadow: {
+          height: 9,
+          letterWidth: 6,
+          spacing: 0
+        }
+      },
+      big_ranks: {
+        normal: {
+          height: 14,
+          letterWidth: 8,
+          spacing: 0,
+          enableShadow: true,
+          borderSize: 3
+        },
+        shadow: {
+          height: 15,
+          letterWidth: 10,
+          spacing: 0
+        }
+      },
+      border_ranks: {
+        normal: {
+          height: 11,
+          letterWidth: 7,
+          spacing: 1,
+          enableShadow: false,
+          borderSize: 1
+        }
+      }
+    };
+
+    let FONT_HEIGHT = 9;
+    let LETTER_WIDTH_NORMAL = 5;
+    let LETTER_WIDTH_SHADOW = 6;
+    let SPACING_NORMAL = 1;
+    let SPACING_SHADOW = 0;
+    
+    let BORDER = 1;
+    const INNER_PADDING = 1;
+
+    const fontImages = {};
+    let availableFonts = ['default', 'big_ranks', 'border_ranks'];
+    let currentZoom = 6;
+    let rankWidth = 0;
+    let rankHeight = 0;
+    let animationFrame;
+    let imagesLoaded = false;
+    let backgroundImage = null;
+
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ';
+
+    // Background image handling
+    const dropZone = document.getElementById('dropZone');
+    const backgroundImageInput = document.getElementById('backgroundImageInput');
+    const backgroundControls = document.getElementById('backgroundControls');
+    const removeBackgroundBtn = document.getElementById('removeBackground');
+    const backgroundInfo = document.getElementById('backgroundInfo');
+
+    // Drop zone events
+    dropZone.addEventListener('click', () => {
+      backgroundImageInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleImageFile(files[0]);
+      }
+    });
+
+    backgroundImageInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleImageFile(e.target.files[0]);
+      }
+    });
+
+    removeBackgroundBtn.addEventListener('click', () => {
+      backgroundImage = null;
+      backgroundControls.style.display = 'none';
+      dropZone.style.display = 'block';
+      backgroundImageInput.value = '';
+      generateRank();
+    });
+
+    function handleImageFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // Calculate expected dimensions based on current settings
+          const text = document.getElementById('rankText').value.toUpperCase();
+          const fontStyle = document.getElementById('fontStyle').value;
+          const enableShadow = document.getElementById('enableShadow').checked;
+          const enableBorder = document.getElementById('enableBorder').checked;
+          
+          const expectedDimensions = calculateRankDimensions(text, fontStyle, enableShadow, enableBorder);
+          
+          // Check if dimensions match (allow some tolerance)
+          const tolerance = 2;
+          if (Math.abs(img.width - expectedDimensions.width) > tolerance || 
+              Math.abs(img.height - expectedDimensions.height) > tolerance) {
+            const proceed = confirm(
+              `Warning: Image dimensions (${img.width}x${img.height}) don't match expected rank dimensions (${expectedDimensions.width}x${expectedDimensions.height}). ` +
+              `The image may not fit properly. Continue anyway?`
+            );
+            if (!proceed) {
+              return;
+            }
+          }
+
+          backgroundImage = img;
+          dropZone.style.display = 'none';
+          backgroundControls.style.display = 'flex';
+          backgroundInfo.textContent = `${file.name} (${img.width}x${img.height})`;
+          generateRank();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function calculateRankDimensions(text, fontStyle, enableShadow, enableBorder) {
+      const fontType = enableShadow ? 'shadow' : 'normal';
+      const config = fontConfig[fontStyle][fontType] || fontConfig[fontStyle].normal;
+      
+      const letterWidth = enableShadow ? 
+        ((fontConfig[fontStyle].shadow || {}).letterWidth || fontConfig[fontStyle].normal.letterWidth + 1) : 
+        fontConfig[fontStyle].normal.letterWidth;
+      const spacing = enableShadow ? 
+        ((fontConfig[fontStyle].shadow || {}).spacing || 0) : 
+        fontConfig[fontStyle].normal.spacing;
+
+      const textLength = text.length;
+      const innerTextWidth = textLength * letterWidth + (textLength - 1) * spacing;
+      const innerWidth = innerTextWidth + INNER_PADDING * 2;
+      const borderSize = enableBorder ? (config.borderSize || 1) : 0;
+      const totalWidth = innerWidth + borderSize * 2;
+      const totalHeight = config.height;
+      
+      return { width: totalWidth, height: totalHeight };
+    }
+
+    document.getElementById('rankText').addEventListener('input', function() {
+      generateRank();
+    });
+
+    document.getElementById('fontStyle').addEventListener('change', function() {
+      const selectedFont = this.value;
+      const shadowToggle = document.getElementById('enableShadow');
+      const shadowOption = document.querySelector('.option-toggle');
+      
+      if (fontConfig[selectedFont] && fontConfig[selectedFont].normal) {
+        const supportsShadow = fontConfig[selectedFont].normal.enableShadow !== false;
+        
+        if (supportsShadow) {
+          shadowOption.style.display = 'flex';
+        } else {
+          shadowOption.style.display = 'none';
+          shadowToggle.checked = false;
+        }
+      }
+      
+      generateRank();
+    });
+
+    document.getElementById('borderColor').addEventListener('input', function() {
+      document.getElementById('borderColorValue').textContent = this.value;
+      generateRank();
+    });
+    
+    document.getElementById('borderEndColor').addEventListener('input', function() {
+      document.getElementById('borderEndColorValue').textContent = this.value;
+      generateRank();
+    });
+    
+    document.getElementById('bgColorStart').addEventListener('input', function() {
+      document.getElementById('bgStartValue').textContent = this.value;
+      generateRank();
+    });
+    
+    document.getElementById('bgColorEnd').addEventListener('input', function() {
+      document.getElementById('bgEndValue').textContent = this.value;
+      generateRank();
+    });
+    
+    document.getElementById('enableShadow').addEventListener('change', function() {
+      generateRank();
+    });
+    
+    document.getElementById('enableGradientBorder').addEventListener('change', function() {
+      const borderEndColorPicker = document.querySelector('.color-picker:nth-child(2)');
+      if (this.checked) {
+        borderEndColorPicker.style.display = 'block';
+      } else {
+        borderEndColorPicker.style.display = 'none';
+      }
+      generateRank();
+    });
+
+    document.getElementById('enableBorder').addEventListener('change', function() {
+      generateRank();
+    });
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => {
+          resolve(null);
+        };
+        img.src = src;
+      });
+    }
+
+    async function fetchAvailableFonts() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(['default', 'rounded', 'small', 'big_ranks', 'border_ranks']);
+        }, 500);
+      });
+    }
+
+    async function populateFontDropdown() {
+      const fontSelect = document.getElementById('fontStyle');
+      fontSelect.innerHTML = '';
+      
+      for (const font of availableFonts) {
+        const option = document.createElement('option');
+        option.value = font;
+        option.textContent = font.charAt(0).toUpperCase() + font.slice(1).replace('_', ' ');
+        fontSelect.appendChild(option);
+      }
+    }
+
+    async function loadFontImages(fontStyle) {
+      if (!fontImages[fontStyle]) {
+        fontImages[fontStyle] = {
+          normal: {},
+          shadow: {}
+        };
+      }
+
+      const loadPromises = [];
+      
+      for (const letter of letters) {
+        if (letter === ' ') {
+          const blankPromise = loadImage('font/blank.png');
+          loadPromises.push(blankPromise);
+          blankPromise.then(img => {
+            fontImages[fontStyle].normal[letter] = img;
+            fontImages[fontStyle].shadow[letter] = img;
+          });
+        } else {
+          const normalPromise = loadImage(`font/${fontStyle}/${letter.toLowerCase()}.png`);
+          loadPromises.push(normalPromise);
+          
+          normalPromise.then(img => {
+            fontImages[fontStyle].normal[letter] = img;
+          });
+          
+          if (fontConfig[fontStyle] && 
+              fontConfig[fontStyle].normal && 
+              fontConfig[fontStyle].normal.enableShadow !== false) {
+            const shadowPromise = loadImage(`font/${fontStyle}/${letter.toLowerCase()}_shadow.png`);
+            loadPromises.push(shadowPromise);
+            
+            shadowPromise.then(img => {
+              fontImages[fontStyle].shadow[letter] = img;
+            });
+          }
+        }
+      }
+      
+      return Promise.all(loadPromises);
+    }
+
+    async function initializeFonts() {
+      loadingIndicator.style.display = 'flex';
+      canvas.style.display = 'none';
+      
+      try {
+        availableFonts = await fetchAvailableFonts();
+        await populateFontDropdown();
+        
+        for (const font of availableFonts) {
+          if (font !== 'default' && font !== 'big_ranks' && font !== 'border_ranks') {
+            fontConfig[font] = {
+              normal: {
+                height: 9,
+                letterWidth: 5,
+                spacing: 1,
+                enableShadow: true,
+                borderSize: 1
+              },
+              shadow: {
+                height: 9,
+                letterWidth: 6,
+                spacing: 0
+              }
+            };
+          }
+        }
+        
+        await loadFontImages('default');
+        
+        const selectedFont = document.getElementById('fontStyle').value;
+        const shadowToggle = document.getElementById('enableShadow');
+        const shadowOption = document.querySelector('.option-toggle');
+        
+        if (fontConfig[selectedFont] && fontConfig[selectedFont].normal) {
+          const supportsShadow = fontConfig[selectedFont].normal.enableShadow !== false;
+          
+          if (!supportsShadow) {
+            shadowOption.style.display = 'none';
+            shadowToggle.checked = false;
+          }
+        }
+        
+        // Initialize border end color visibility
+        const gradientBorderEnabled = document.getElementById('enableGradientBorder').checked;
+        const borderEndColorPicker = document.querySelector('.color-picker:nth-child(2)');
+        borderEndColorPicker.style.display = gradientBorderEnabled ? 'block' : 'none';
+        
+        imagesLoaded = true;
+        
+        generateRank();
+      } catch (error) {
+        console.error("Error initializing fonts:", error);
+      } finally {
+        loadingIndicator.style.display = 'none';
+        canvas.style.display = 'block';
+      }
+    }
+
+    async function generateRank() {
+      cancelAnimationFrame(animationFrame);
+      
+      const text = document.getElementById('rankText').value.toUpperCase();
+      const fontStyle = document.getElementById('fontStyle').value;
+      const borderColor = document.getElementById('borderColor').value;
+      const borderEndColor = document.getElementById('borderEndColor').value;
+      const bgColorStart = document.getElementById('bgColorStart').value;
+      const bgColorEnd = document.getElementById('bgColorEnd').value;
+      const enableShadow = document.getElementById('enableShadow').checked;
+      const enableGradientBorder = document.getElementById('enableGradientBorder').checked;
+      const enableBorder = document.getElementById('enableBorder').checked;
+
+      let usesShadow = enableShadow;
+      if (fontConfig[fontStyle] && 
+          fontConfig[fontStyle].normal && 
+          fontConfig[fontStyle].normal.enableShadow === false) {
+        usesShadow = false;
+      }
+
+      if (!fontImages[fontStyle]) {
+        loadingIndicator.style.display = 'flex';
+        canvas.style.display = 'none';
+        
+        try {
+          await loadFontImages(fontStyle);
+        } catch (error) {
+          console.error(`Error loading font "${fontStyle}":`, error);
+          loadingIndicator.style.display = 'none';
+          canvas.style.display = 'block';
+          return;
+        }
+        
+        loadingIndicator.style.display = 'none';
+        canvas.style.display = 'block';
+      }
+
+      const fontType = usesShadow ? 'shadow' : 'normal';
+      const config = fontConfig[fontStyle][fontType] || fontConfig[fontStyle].normal;
+      
+      FONT_HEIGHT = config.height;
+      LETTER_WIDTH_NORMAL = fontConfig[fontStyle].normal.letterWidth;
+      LETTER_WIDTH_SHADOW = (fontConfig[fontStyle].shadow || {}).letterWidth || LETTER_WIDTH_NORMAL + 1;
+      SPACING_NORMAL = fontConfig[fontStyle].normal.spacing;
+      SPACING_SHADOW = (fontConfig[fontStyle].shadow || {}).spacing || 0;
+
+      const letterWidth = usesShadow ? LETTER_WIDTH_SHADOW : LETTER_WIDTH_NORMAL;
+      const spacing = usesShadow ? SPACING_SHADOW : SPACING_NORMAL;
+
+      const textLength = text.length;
+      const innerTextWidth = textLength * letterWidth + (textLength - 1) * spacing;
+      const innerWidth = innerTextWidth + INNER_PADDING * 2;
+      const borderSize = enableBorder ? BORDER : 0;
+      const totalWidth = innerWidth + borderSize * 2;
+      
+      rankWidth = totalWidth;
+      rankHeight = FONT_HEIGHT;
+      
+      canvas.width = totalWidth;
+      canvas.height = FONT_HEIGHT;
+      
+      drawRank(text, borderColor, borderEndColor, bgColorStart, bgColorEnd, usesShadow, fontStyle, enableGradientBorder, enableBorder);
+    }
+
+    function drawRank(text, borderColor, borderEndColor, bgColorStart, bgColorEnd, enableShadow, fontStyle, enableGradientBorder, enableBorder) {
+      const letterWidth = enableShadow ? LETTER_WIDTH_SHADOW : LETTER_WIDTH_NORMAL;
+      const spacing = enableShadow ? SPACING_SHADOW : SPACING_NORMAL;
+      const fontType = enableShadow ? 'shadow' : 'normal';
+      const borderSize = enableBorder ? BORDER : 0;
+      
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw background (image or gradient)
+      if (backgroundImage) {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+      } else {
+        const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+        bgGradient.addColorStop(0, bgColorStart);
+        bgGradient.addColorStop(1, bgColorEnd);
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      let yPosition = 2;
+      if (fontStyle === 'big_ranks') {
+        yPosition = 4;
+      } else if (fontStyle === 'border_ranks') {
+        yPosition = 2;
+      }
+
+      let x = borderSize + INNER_PADDING;
+      for (const char of text) {
+        const upperChar = char.toUpperCase();
+        const img = fontImages[fontStyle][fontType][upperChar];
+        if (!img) continue;
+        ctx.drawImage(img, x, yPosition);
+        x += letterWidth + spacing;
+      }
+
+      // Draw border (if enabled)
+      if (enableBorder) {
+        if (enableGradientBorder) {
+          // Draw gradient border
+          const borderGradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+          borderGradient.addColorStop(0, borderColor);
+          borderGradient.addColorStop(1, borderEndColor);
+          ctx.strokeStyle = borderGradient;
+        } else {
+          ctx.strokeStyle = borderColor;
+        }
+        
+        ctx.lineWidth = borderSize;
+        
+        // Adjust for border width to ensure it's fully visible
+        const halfBorder = borderSize / 2;
+        ctx.strokeRect(
+          halfBorder, 
+          halfBorder, 
+          canvas.width - borderSize, 
+          canvas.height - borderSize
+        );
+      }
+    }
+
+    function updateZoomDisplay() {
+      document.getElementById('zoomLevel').textContent = `${currentZoom}x`;
+      canvas.style.transform = `scale(${currentZoom})`;
+    }
+
+    function downloadImage() {
+      const text = document.getElementById('rankText').value.toUpperCase();
+      const fontStyle = document.getElementById('fontStyle').value;
+      const borderColor = document.getElementById('borderColor').value;
+      const borderEndColor = document.getElementById('borderEndColor').value;
+      const bgColorStart = document.getElementById('bgColorStart').value;
+      const bgColorEnd = document.getElementById('bgColorEnd').value;
+      const enableGradientBorder = document.getElementById('enableGradientBorder').checked;
+      const enableBorder = document.getElementById('enableBorder').checked;
+      
+      let enableShadow = document.getElementById('enableShadow').checked;
+      if (fontConfig[fontStyle] && 
+          fontConfig[fontStyle].normal && 
+          fontConfig[fontStyle].normal.enableShadow === false) {
+        enableShadow = false;
+      }
+      
+      drawRank(text, borderColor, borderEndColor, bgColorStart, bgColorEnd, enableShadow, fontStyle, enableGradientBorder, enableBorder);
+      
+      const link = document.createElement('a');
+      link.download = `nautical_${text.toLowerCase()}_rank.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function loadExample(text, borderColor, borderEndColor, bgColorStart, bgColorEnd, shadow, fontStyle, gradientBorder) {
+      document.getElementById('rankText').value = text;
+      document.getElementById('fontStyle').value = fontStyle;
+      document.getElementById('borderColor').value = borderColor;
+      document.getElementById('borderEndColor').value = borderEndColor;
+      document.getElementById('bgColorStart').value = bgColorStart;
+      document.getElementById('bgColorEnd').value = bgColorEnd;
+      document.getElementById('enableGradientBorder').checked = gradientBorder;
+      
+      if (fontConfig[fontStyle] && 
+          fontConfig[fontStyle].normal && 
+          fontConfig[fontStyle].normal.enableShadow !== false) {
+        document.getElementById('enableShadow').checked = shadow;
+        document.querySelector('.option-toggle').style.display = 'flex';
+      } else {
+        document.getElementById('enableShadow').checked = false;
+        document.querySelector('.option-toggle').style.display = 'none';
+      }
+      
+      // Update color value displays
+      document.getElementById('borderColorValue').textContent = borderColor;
+      document.getElementById('borderEndColorValue').textContent = borderEndColor;
+      document.getElementById('bgStartValue').textContent = bgColorStart;
+      document.getElementById('bgEndValue').textContent = bgEndValue;
+      
+      // Update border end color visibility
+      const borderEndColorPicker = document.querySelector('.color-picker:nth-child(2)');
+      borderEndColorPicker.style.display = gradientBorder ? 'block' : 'none';
+      
+      generateRank();
+    }
+
+    function adjustZoom(change) {
+      const newZoom = Math.max(2, Math.min(10, currentZoom + change));
+      if (newZoom !== currentZoom) {
+        currentZoom = newZoom;
+        updateZoomDisplay();
+      }
+    }
+
+    window.onload = function() {
+      initializeFonts();
+    };
+  </script>
+
+</body></html>
